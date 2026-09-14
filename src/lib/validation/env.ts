@@ -1,7 +1,10 @@
 import { z } from "zod";
 
 const serverEnvSchema = z.object({
-  SUPABASE_URL: z.url(),
+  SUPABASE_URL: z.url().refine((value) => {
+    const protocol = new URL(value).protocol;
+    return protocol === "https:" || protocol === "http:";
+  }, "Must be the HTTP(S) Supabase project API URL."),
   SUPABASE_SECRET_KEY: z.string().min(1),
   GROQ_API_KEY: z.string().min(1),
 });
@@ -23,4 +26,3 @@ export function getServerEnv() {
 
   return result.data;
 }
-
