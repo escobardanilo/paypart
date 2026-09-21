@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BoltIcon, ClipboardIcon, GridIcon, SearchIcon, TransferIcon } from "@/components/icons";
+import { ActivityIcon, AlertIcon, ApprovalIcon, GridIcon, RequestIcon, TransferIcon } from "@/components/icons";
 
 const items = [
   { href: "/dashboard", label: "Overview", icon: GridIcon },
-  { href: "/investigate", label: "Investigate", icon: BoltIcon },
-  { href: "/investigations", label: "Investigations", icon: SearchIcon },
+  { href: "/requests", label: "Requests", icon: RequestIcon },
+  { href: "/approvals", label: "Approvals", icon: ApprovalIcon },
   { href: "/transactions", label: "Transactions", icon: TransferIcon },
-  { href: "/actions", label: "Actions", icon: ClipboardIcon },
+  { href: "/exceptions", label: "Exceptions", icon: AlertIcon },
+  { href: "/activity", label: "Activity", icon: ActivityIcon },
 ];
 
 export function Navigation() {

@@ -1,49 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { InvestigationActivityChart, PaymentStatusChart } from "@/components/dashboard-charts";
-import { AlertIcon, ArrowIcon, CheckIcon, ClipboardIcon, SearchIcon, ShieldIcon, SparkIcon } from "@/components/icons";
-import { DataError, EmptyState, SectionHeading, StatusBadge } from "@/components/ui";
-import { getDashboardData } from "@/lib/database/repositories";
-import { formatDate, truncate } from "@/lib/format";
+import { ActivityIcon, AlertIcon, ApprovalIcon, ArrowIcon, ClockIcon, RequestIcon, TransferIcon } from "@/components/icons";
+import { NewPaymentRequest } from "@/components/new-payment-request";
+import { StatusBadge } from "@/components/ui";
+import { actionRequired, activity } from "@/lib/demo-data";
+import { formatCurrency } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Operations overview" };
-export const dynamic = "force-dynamic";
+export const metadata: Metadata = { title: "Payment Operations" };
 
-export default async function DashboardPage() {
-  let data: Awaited<ReturnType<typeof getDashboardData>> | null = null;
-  try { data = await getDashboardData(); } catch (error) { console.error("Dashboard data failed", error); }
-  const resolutionRate = data?.totalInvestigations ? Math.round((data.completedInvestigations / data.totalInvestigations) * 100) : 0;
+const metrics = [
+  { label: "Open requests", value: "12", note: "+3 since yesterday", icon: RequestIcon, tone: "green" },
+  { label: "Awaiting approval", value: "5", note: "2 due today", icon: ApprovalIcon, tone: "violet" },
+  { label: "Payments processing", value: "8", note: "€18,420 in flight", icon: TransferIcon, tone: "blue" },
+  { label: "Exceptions", value: "3", note: "1 high priority", icon: AlertIcon, tone: "red" },
+];
 
-  return (
-    <>
-      <header className="overview-hero"><div><span>Payment operations</span><h1>Overview</h1><p>Monitor investigations, payment health, and every controlled follow-up from one operational view.</p></div><div className="overview-actions"><div><i />System connected</div><Link href="/investigate" className="button primary"><SearchIcon />New investigation</Link></div></header>
-      {!data ? <DataError /> : <section className="dashboard-board">
-        <article className="metric-tile investigations"><div><span className="metric-icon green"><SparkIcon /></span><small>Payment investigations</small></div><strong>{data.totalInvestigations}</strong><p>{data.openInvestigations} active now</p></article>
-        <article className="metric-tile failures"><div><span className="metric-icon red"><AlertIcon /></span><small>Failed payments</small></div><strong>{data.failedTransactions}</strong><p>Need operational review</p></article>
-        <article className="metric-tile actions"><div><span className="metric-icon amber"><ClipboardIcon /></span><small>Pending actions</small></div><strong>{data.pendingActions}</strong><p>Awaiting human handling</p></article>
-        <article className="metric-tile resolution"><div><span className="metric-icon blue"><CheckIcon /></span><small>Resolution rate</small></div><strong>{resolutionRate}%</strong><p>{data.completedInvestigations} cases completed</p><span className="resolution-track"><i style={{ width: `${resolutionRate}%` }} /></span></article>
-
-        <article className="board-card activity-module">
-          <div className="module-heading"><div><h2>Investigation activity</h2><p>Agent-led reviews created over the last seven days</p></div><span>Last 7 days</span></div>
-          <InvestigationActivityChart data={data.activity} />
-        </article>
-
-        <article className="board-card health-module">
-          <div className="module-heading"><div><h2>Payment health</h2><p>Current recorded status distribution</p></div></div>
-          <PaymentStatusChart statuses={data.paymentStatuses} />
-          <div className="health-note"><ShieldIcon /><span><strong>Read-only monitoring</strong><small>No balance or payment mutation</small></span></div>
-        </article>
-
-        <article className="board-card investigations-module">
-          <SectionHeading title="Recent investigations" detail="Latest evidence-led reviews" href="/investigations" />
-          {data.investigations.length === 0 ? <EmptyState title="No investigations yet" description="Start with a transaction reference to create the first audit trail." /> : <div className="investigation-log">{data.investigations.map((item) => <Link href={`/investigations/${item.id}`} key={item.id} className="log-row"><span className={`log-indicator ${item.status}`} /><span className="log-main"><strong>{truncate(item.user_request, 58)}</strong><small>{truncate(item.diagnosis, 70)}</small></span><span className="log-reference mono">{item.transactions?.transaction_reference ?? "—"}</span><StatusBadge status={item.status} /><time>{formatDate(item.created_at)}</time><ArrowIcon /></Link>)}</div>}
-        </article>
-
-        <aside className="board-card attention-module">
-          <SectionHeading title="Attention required" detail="Pending operational action requests" href="/actions" />
-          <div className="attention-list">{data.actions.length === 0 ? <EmptyState title="Queue is clear" description="Evidence-backed requests will appear here." /> : data.actions.map((action) => <article key={action.id}><div><span className={`action-type ${action.action_type === "approval_request" ? "approval" : "ticket"}`}>{action.action_type === "approval_request" ? "Approval" : "Support"}</span><StatusBadge status={action.status} /></div><h3>{action.title}</h3><p>{truncate(action.description, 110)}</p><footer><span className="mono">{action.investigations?.transactions?.transaction_reference ?? "No transaction"}</span><time>{formatDate(action.created_at)}</time></footer></article>)}</div>
-        </aside>
-      </section>}
-    </>
-  );
+export default function DashboardPage() {
+  return <>
+    <header className="workspace-header"><div><p className="eyebrow">Payment Operations</p><h1>What needs attention today</h1><p>Monitor requests, approvals and payment activity across your workspace.</p></div><NewPaymentRequest /></header>
+    <section className="ops-metric-grid">{metrics.map(({ icon: Icon, ...item }) => <article className="ops-metric" key={item.label}><span className={`ops-metric-icon ${item.tone}`}><Icon /></span><div><small>{item.label}</small><strong>{item.value}</strong><p>{item.note}</p></div></article>)}</section>
+    <section className="overview-layout">
+      <article className="panel action-required-panel"><div className="ops-section-heading"><div><p className="eyebrow">Priority queue</p><h2>Action required</h2></div><Link href="/exceptions">View queue<ArrowIcon /></Link></div><div className="responsive-table"><table><thead><tr><th>Item</th><th>Type</th><th>Amount</th><th>Status</th><th>Owner</th><th>Updated</th></tr></thead><tbody>{actionRequired.map((item) => <tr key={item.item}><td><strong>{item.item}</strong><small>{item.counterparty}</small></td><td>{item.type}</td><td className="amount-cell">{formatCurrency(item.amount, "EUR")}</td><td><StatusBadge status={item.status} /></td><td><span className="owner-chip">{item.owner.slice(0, 2).toUpperCase()}</span>{item.owner}</td><td>{item.updated}</td></tr>)}</tbody></table></div></article>
+      <aside className="panel recent-activity-panel"><div className="ops-section-heading"><div><p className="eyebrow">Workspace</p><h2>Recent activity</h2></div><Link href="/activity"><ActivityIcon /></Link></div><div className="activity-feed compact">{activity.slice(0, 4).map((item) => <article key={`${item.object}-${item.timestamp}`}><span className={`activity-avatar ${item.tone}`}>{item.initials}</span><div><p><strong>{item.actor}</strong> {item.event} <b>{item.object}</b></p><small>{item.detail}</small></div><time>{item.timestamp}</time></article>)}</div><Link href="/activity" className="activity-footer-link">View complete audit trail<ArrowIcon /></Link></aside>
+    </section>
+    <section className="workspace-summary"><div><span><ClockIcon /></span><p><strong>Next scheduled payment run</strong><small>Today at 16:00 · 6 approved requests · €12,840 total</small></p></div><Link href="/transactions">Open transaction ledger<ArrowIcon /></Link></section>
+  </>;
 }

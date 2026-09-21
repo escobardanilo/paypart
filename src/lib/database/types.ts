@@ -66,51 +66,8 @@ export interface ProviderError {
   recommended_action: string;
 }
 
-export interface Investigation {
-  id: string;
-  user_request: string;
-  transaction_id: string | null;
-  status: string;
-  diagnosis: string | null;
-  recommended_action: string | null;
-  created_at: string;
-  completed_at: string | null;
-}
-
-export interface InvestigationEvent {
-  id: string;
-  investigation_id: string;
-  event_type: string;
-  tool_name: string | null;
-  input: Json | null;
-  output: Json | null;
-  created_at: string;
-}
-
-export interface ActionRequest {
-  id: string;
-  investigation_id: string;
-  action_type: "support_ticket" | "approval_request";
-  status: string;
-  title: string;
-  description: string;
-  created_at: string;
-}
-
 export type TransactionWithRelations = Transaction & {
   parties: Pick<Party, "name" | "type"> | null;
   accounts: Pick<Account, "account_name"> | null;
   invoices: Pick<Invoice, "invoice_number"> | null;
 };
-
-export type InvestigationWithTransaction = Investigation & {
-  transactions: Pick<Transaction, "transaction_reference" | "amount" | "currency" | "status"> | null;
-};
-
-export type ActionWithInvestigation = ActionRequest & {
-  investigations: {
-    user_request: string;
-    transactions: Pick<Transaction, "transaction_reference"> | null;
-  } | null;
-};
-

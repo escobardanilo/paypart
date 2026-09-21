@@ -8,7 +8,7 @@ export function PageHeader({ eyebrow, title, description, action }: { eyebrow?: 
 
 export function StatusBadge({ status }: { status: string }) {
   const normalized = status.toLowerCase();
-  const tone = ["completed", "successful", "success", "active", "verified"].includes(normalized) ? "success" : ["failed", "error", "blocked"].includes(normalized) ? "danger" : ["running", "pending", "open", "processing"].includes(normalized) ? "warning" : "neutral";
+  const tone = ["completed", "successful", "success", "active", "verified", "approved", "resolved", "scheduled"].includes(normalized) ? "success" : ["failed", "error", "blocked", "rejected", "exception"].includes(normalized) ? "danger" : ["running", "pending", "open", "processing", "awaiting approval", "review required", "under review", "in review", "information requested"].includes(normalized) ? "warning" : "neutral";
   return <span className={`status-badge ${tone}`}><span />{titleCase(status)}</span>;
 }
 
@@ -23,4 +23,3 @@ export function EmptyState({ title, description }: { title: string; description:
 export function DataError({ message = "We could not load operational data. Check the server connection and try again." }: { message?: string }) {
   return <div className="data-error" role="alert"><strong>Data temporarily unavailable</strong><p>{message}</p></div>;
 }
-

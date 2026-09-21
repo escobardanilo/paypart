@@ -19,4 +19,13 @@ export function ClockIcon(props: IconProps) { return <Icon {...props}><circle cx
 export function ShieldIcon(props: IconProps) { return <Icon {...props}><path d="M12 3 5 6v5c0 4.5 2.7 8.2 7 10 4.3-1.8 7-5.5 7-10V6l-7-3Z" /><path d="m9 12 2 2 4-4" /></Icon>; }
 export function WalletIcon(props: IconProps) { return <Icon {...props}><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H19v14H6.5A2.5 2.5 0 0 1 4 16.5v-9Z" /><path d="M4 8h15m-5 4h5" /></Icon>; }
 export function ChevronIcon(props: IconProps) { return <Icon {...props}><path d="m9 18 6-6-6-6" /></Icon>; }
-
+export function PlusIcon(props: IconProps) { return <Icon {...props}><path d="M12 5v14M5 12h14" /></Icon>; }
+export function RequestIcon(props: IconProps) { return <Icon {...props}><path d="M6 3h9l3 3v15H6z" /><path d="M14 3v4h4M9 11h6M9 15h6" /></Icon>; }
+export function ApprovalIcon(props: IconProps) { return <Icon {...props}><path d="M8 12.5 11 15l5-6" /><path d="M12 3 5 6v5c0 4.5 2.7 8.2 7 10 4.3-1.8 7-5.5 7-10V6l-7-3Z" /></Icon>; }
+export function ActivityIcon(props: IconProps) { return <Icon {...props}><path d="M4 12h3l2-6 4 12 2-6h5" /></Icon>; }
+export function UserIcon(props: IconProps) { return <Icon {...props}><circle cx="12" cy="8" r="4" /><path d="M4 21c.7-4 3.4-6 8-6s7.3 2 8 6" /></Icon>; }
+export function CalendarIcon(props: IconProps) { return <Icon {...props}><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M8 3v4M16 3v4M3 10h18" /></Icon>; }
+export function DocumentIcon(props: IconProps) { return <Icon {...props}><path d="M6 3h9l3 3v15H6z" /><path d="M14 3v4h4M9 12h6M9 16h4" /></Icon>; }
+export function CloseIcon(props: IconProps) { return <Icon {...props}><path d="m6 6 12 12M18 6 6 18" /></Icon>; }
+export function FilterIcon(props: IconProps) { return <Icon {...props}><path d="M4 6h16M7 12h10M10 18h4" /></Icon>; }
+export function MoreIcon(props: IconProps) { return <Icon {...props}><circle cx="5" cy="12" r="1" fill="currentColor" stroke="none" /><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" /><circle cx="19" cy="12" r="1" fill="currentColor" stroke="none" /></Icon>; }
