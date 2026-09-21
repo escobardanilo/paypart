@@ -24,6 +24,6 @@ export default function Home() {
     <section className="safety-band"><div><span><ShieldIcon /></span><div><p className="marketing-eyebrow">CONTROLLED BY DESIGN</p><h2>Human authorization stays in the loop.</h2></div></div><p>PayPart organizes the work and preserves the record. Critical approvals and financial actions remain controlled by software rules and people.</p></section>
 
     <section className="final-marketing-cta"><span><ClipboardIcon /></span><p className="marketing-eyebrow">PAYPART DEMO</p><h2>See PayPart in operation.</h2><p>Explore a realistic payment operations workspace with requests, approvals, transactions, exceptions and audit history.</p><Link href="/dashboard" className="button primary">View Demo<ArrowIcon /></Link></section>
-    <footer className="marketing-footer"><Link href="/" className="brand"><span className="brand-mark"><span /><span /><span /></span><span>PayPart</span></Link><p>Payment operations, coordinated.</p><span>Portfolio demo · No real money movement</span></footer>
+    <footer className="marketing-footer"><Link href="/" className="brand"><span className="brand-mark"><span /><span /><span /></span><span>PayPart</span><small className="creator-attribution">TM Danilo Escobar</small></Link><p>Payment operations, coordinated.</p><span>Portfolio demo · No real money movement</span></footer>
   </main>;
 }
