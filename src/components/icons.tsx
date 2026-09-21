@@ -29,3 +29,5 @@ export function DocumentIcon(props: IconProps) { return <Icon {...props}><path d
 export function CloseIcon(props: IconProps) { return <Icon {...props}><path d="m6 6 12 12M18 6 6 18" /></Icon>; }
 export function FilterIcon(props: IconProps) { return <Icon {...props}><path d="M4 6h16M7 12h10M10 18h4" /></Icon>; }
 export function MoreIcon(props: IconProps) { return <Icon {...props}><circle cx="5" cy="12" r="1" fill="currentColor" stroke="none" /><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" /><circle cx="19" cy="12" r="1" fill="currentColor" stroke="none" /></Icon>; }
+export function PinyIcon(props: IconProps) { return <Icon {...props}><path d="M5 5h14v11H9l-4 4V5Z" /><path d="M8 9h8M8 12h5" /></Icon>; }
+export function PaperclipIcon(props: IconProps) { return <Icon {...props}><path d="m8.5 12.5 5.7-5.7a3 3 0 0 1 4.2 4.2l-7.8 7.8a5 5 0 0 1-7.1-7.1l7.5-7.5" /><path d="m7.8 15.3 7.1-7.1" /></Icon>; }
